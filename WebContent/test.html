@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+function bt1click(){
+	var cmdpara = {"cmdtype":[{"cmd":"cmd_cpuidle"},
+	                          {"cmd":"cmd_memfree"},
+	                          {"cmd":"cmd_osrelease"},
+	                          {"cmd":"cmd_knrelease"},
+	                          {"cmd":"cmd_fs_status"},
+	                          {"cmd":"cmd_tmnow"},
+	                          {"cmd":"cmd_devmsg"},
+	                          {"cmd":"cmd_rxtx"},
+	                          {"cmd":"cmd_lasttm"}]};
+	//getres(JSON.stringify(cmdpara),"Runcmd");
+	getres(JSON.stringify(cmdpara),"http://192.168.1.128:8080/FswSI/Runcmd");
+}
+function bt2click(){
+	var cmdpara = {"cmdtype":[{"cmd":"cmd_fs_status"},
+	                          {"cmd":"cmd_fs_reloadxml"},
+	                          {"cmd":"cmd_fs_shutdown"}]};
+	//getres(JSON.stringify(cmdpara),"Runcmd");
+	getres(JSON.stringify(cmdpara),"http://192.168.1.128:8080/FswSI/Runcmd");
+}
+function getres(cmdpara,url) {
+	var options = {
+		url : url,
+		type : 'POST',
+		dataType : "json",
+		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		data :{'p':cmdpara},
+		success : function(data, status) {
+			if (data.st==1) {
+				alert(JSON.stringify(data.res));
+			} else {
+				alert(data.err);
+			}
+		},
+		error : function(data) {
+			alert('操作异常！请重试！');
+		}
+	};
+	$.ajax(options);
+}
+</script>
+</head>
+<body>
+<button onclick="javascript:bt1click()">cmd</button>
+<button onclick="javascript:bt2click()">reload</button>
+</body>
+</html>
